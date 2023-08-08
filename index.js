@@ -5,8 +5,6 @@ const fs = require("fs");
 
 const { Triangle, Square, Circle } = require("./lib/shapes");
 
-function writeToFile(fileName, answer)
-
 // Prompts for user to answer regarding the logo
 function userPrompt() {
   inquirer
@@ -39,16 +37,39 @@ function userPrompt() {
       },
     ])
     .then((answers) => {
-      // Error handling for text prompt (user must enter 3 characters or less for logo to generate)
+      // Error handling for text prompt (user must enter 3 characters or less)
       if (answers.text.length > 3) {
         console.log("Must enter a value of 3 characters");
         userPrompt();
-      } else {
+      }
+      // calling user answers and placing them in required fields
+      else {
+        let shape = "";
+        if (answers.shape === "Triangle") {
+          shape = new Triangle();
+        } else if (answers.shape === "Square") {
+          shape = new Square();
+        } else {
+          shape = new Circle();
+        }
+        shape.setColor(answers.shapeColor);
+        // creating svg code
+        const svgString = `
+        <svg width="300" height="250">
+          ${shape.render()}
+          <text x="50%" y="50%" text-anchor= "middle" fill="${
+            answers.textColor
+          }">${answers.text}</text>
+        </svg>
+        `;
+
         // Calling write file function to generate SVG file
-        writeToFile("logo.svg", answers);
+        fs.writeFile("logo.svg", svgString, (err) =>
+          err ? console.error(err) : console.log("Commit logged!")
+        );
       }
     });
 }
 
-// Calling promptUser function so inquirer prompts fire off when application is ran
+// Calling userPrompt function
 userPrompt();
