@@ -1,3 +1,5 @@
+// worked with Keller on this
+
 // Inquirer Import
 const inquirer = require("inquirer");
 
@@ -65,7 +67,7 @@ function userPrompt() {
 
         // Calling write file function to generate SVG file
         fs.writeFile("logo.svg", svgString, (err) =>
-          err ? console.error(err) : console.log("Commit logged!")
+          err ? console.error(err) : console.log("Generated logo.svg")
         );
       }
     });
