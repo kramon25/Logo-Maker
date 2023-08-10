@@ -55,11 +55,12 @@ function userPrompt() {
           shape = new Circle();
         }
         shape.setColor(answers.shapeColor);
+
         // creating svg code
         const svgString = `
-        <svg width="300" height="250">
+        <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
           ${shape.render()}
-          <text x="50%" y="50%" text-anchor= "middle" fill="${
+          <text x="50%" y="50%" text-anchor= "middle" font-size="40" fill="${
             answers.textColor
           }">${answers.text}</text>
         </svg>
